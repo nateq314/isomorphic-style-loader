@@ -7,15 +7,10 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import hoistStatics from 'hoist-non-react-statics';
+import React, { Component } from "react";
+import hoistStatics from "hoist-non-react-statics";
 
-const contextTypes = {
-  insertCss: PropTypes.func,
-};
-
-function withStyles(...styles) {
+function withStyles(stylesContext, ...styles) {
   return function wrapWithStyles(ComposedComponent) {
     class WithStyles extends Component {
       componentWillMount() {
@@ -33,10 +28,11 @@ function withStyles(...styles) {
       }
     }
 
-    const displayName = ComposedComponent.displayName || ComposedComponent.name || 'Component';
+    const displayName =
+      ComposedComponent.displayName || ComposedComponent.name || "Component";
 
     WithStyles.displayName = `WithStyles(${displayName})`;
-    WithStyles.contextTypes = contextTypes;
+    WithStyles.contextType = stylesContext;
     WithStyles.ComposedComponent = ComposedComponent;
 
     return hoistStatics(WithStyles, ComposedComponent);
